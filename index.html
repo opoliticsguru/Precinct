@@ -34,6 +34,7 @@
         <script src="data/Issue2_2.js"></script>
         <script src="data/Issue1_3.js"></script>
         <script src="data/Turnout_4.js"></script>
+        <script src="data/CountyOutline_5.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -1020,6 +1021,98 @@
             style: style_Turnout_4_0,
         });
         bounds_group.addLayer(layer_Turnout_4);
+        function pop_CountyOutline_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STATEFP20'] !== null ? autolinker.link(feature.properties['STATEFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COUNTYFP20'] !== null ? autolinker.link(feature.properties['COUNTYFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COUNTYNS20'] !== null ? autolinker.link(feature.properties['COUNTYNS20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOID20'] !== null ? autolinker.link(feature.properties['GEOID20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME20'] !== null ? autolinker.link(feature.properties['NAME20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAMELSAD20'] !== null ? autolinker.link(feature.properties['NAMELSAD20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LSAD20'] !== null ? autolinker.link(feature.properties['LSAD20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CLASSFP20'] !== null ? autolinker.link(feature.properties['CLASSFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MTFCC20'] !== null ? autolinker.link(feature.properties['MTFCC20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CSAFP20'] !== null ? autolinker.link(feature.properties['CSAFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CBSAFP20'] !== null ? autolinker.link(feature.properties['CBSAFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['METDIVFP20'] !== null ? autolinker.link(feature.properties['METDIVFP20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FUNCSTAT20'] !== null ? autolinker.link(feature.properties['FUNCSTAT20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ALAND20'] !== null ? autolinker.link(feature.properties['ALAND20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AWATER20'] !== null ? autolinker.link(feature.properties['AWATER20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['INTPTLAT20'] !== null ? autolinker.link(feature.properties['INTPTLAT20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['INTPTLON20'] !== null ? autolinker.link(feature.properties['INTPTLON20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CountyOutline_5_0() {
+            return {
+                pane: 'pane_CountyOutline_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CountyOutline_5');
+        map.getPane('pane_CountyOutline_5').style.zIndex = 405;
+        map.getPane('pane_CountyOutline_5').style['mix-blend-mode'] = 'normal';
+        var layer_CountyOutline_5 = new L.geoJson(json_CountyOutline_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CountyOutline_5',
+            layerName: 'layer_CountyOutline_5',
+            pane: 'pane_CountyOutline_5',
+            onEachFeature: pop_CountyOutline_5,
+            style: style_CountyOutline_5_0,
+        });
+        bounds_group.addLayer(layer_CountyOutline_5);
+        map.addLayer(layer_CountyOutline_5);
             var title = new L.Control();
             title.onAdd = function (map) {
                 this._div = L.DomUtil.create('div', 'info');
@@ -1035,24 +1128,18 @@
                 this._div = L.DomUtil.create('div',
                 'leaflet-control abstract');
                 this._div.id = 'abstract'
-                    this._div.setAttribute("onmouseenter", "abstract.show()");
-                    this._div.setAttribute("onmouseleave", "abstract.hide()");
-                    this.hide();
+
+                    abstract.show();
                     return this._div;
                 };
-                abstract.hide = function () {
-                    this._div.classList.remove("abstractUncollapsed");
-                    this._div.classList.add("abstract");
-                    this._div.innerHTML = 'i'
-                }
                 abstract.show = function () {
                     this._div.classList.remove("abstract");
                     this._div.classList.add("abstractUncollapsed");
-                    this._div.innerHTML = '-Sources: County Boards of Elections & Ohio Secretary of State<br />-Results are a mixture of Final Unofficial Results & Final Official Results<br />-Note: Precinct-level results not yet available for all counties. Countywide results are shown for those counties.<br />-Follow: @OPoliticsGuru';
+                    this._div.innerHTML = '-Sources: Ohio Secretary of State<br />-Follow: @OPoliticsGuru';
             };
             abstract.addTo(map);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'Turnout<br /><table><tr><td style="text-align: center;"><img src="legend/Turnout_4_2640.png" /></td><td><26.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_2643141.png" /></td><td>26.4-31.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_3143642.png" /></td><td>31.4-36.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_3644143.png" /></td><td>36.4-41.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_4144644.png" /></td><td>41.4-46.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_4645145.png" /></td><td>46.4-51.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_5145646.png" /></td><td>51.4-56.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_5646147.png" /></td><td>56.4-61.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_6146648.png" /></td><td>61.4-66.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_6647149.png" /></td><td>66.4-71.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_71410.png" /></td><td>>71.4%</td></tr></table>': layer_Turnout_4,'Issue 1<br /><table><tr><td style="text-align: center;"><img src="legend/Issue1_3_No600.png" /></td><td>No+>60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No45601.png" /></td><td>No+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No30452.png" /></td><td>No+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No15303.png" /></td><td>No+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No0154.png" /></td><td>No+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes0156.png" /></td><td>Yes+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes15307.png" /></td><td>Yes+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes30458.png" /></td><td>Yes+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes45609.png" /></td><td>Yes+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes6010.png" /></td><td>Yes+60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_NoVotes11.png" /></td><td>No Votes</td></tr></table>': layer_Issue1_3,'Issue 2<br /><table><tr><td style="text-align: center;"><img src="legend/Issue2_2_No600.png" /></td><td>No+>60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No45601.png" /></td><td>No+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No30452.png" /></td><td>No+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No15303.png" /></td><td>No+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No0154.png" /></td><td>No+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes0156.png" /></td><td>Yes+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes15307.png" /></td><td>Yes+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes30458.png" /></td><td>Yes+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes45609.png" /></td><td>Yes+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes6010.png" /></td><td>Yes+60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_NoVotes11.png" /></td><td>No Votes</td></tr></table>': layer_Issue2_2,'Issue 1-2 Swing<br /><table><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue2160.png" /></td><td>Issue 2+>16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue212161.png" /></td><td>Issue 2+12-16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue28122.png" /></td><td>Issue 2+8-12%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue2483.png" /></td><td>Issue 2+4-8%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue2044.png" /></td><td>Issue 2+0-4%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue1046.png" /></td><td>Issue 1+0-4%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue1487.png" /></td><td>Issue 1+4-8%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue18128.png" /></td><td>Issue 1+8-12%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue112169.png" /></td><td>Issue 1+12-16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue11610.png" /></td><td>Issue 1+>16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_NoVotes11.png" /></td><td>No Votes</td></tr></table>': layer_Issue12Swing_1,"Google Road": layer_GoogleRoad_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/CountyOutline_5.png" /> County Outline': layer_CountyOutline_5,'Turnout<br /><table><tr><td style="text-align: center;"><img src="legend/Turnout_4_2640.png" /></td><td><26.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_2643141.png" /></td><td>26.4-31.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_3143642.png" /></td><td>31.4-36.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_3644143.png" /></td><td>36.4-41.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_4144644.png" /></td><td>41.4-46.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_4645145.png" /></td><td>46.4-51.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_5145646.png" /></td><td>51.4-56.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_5646147.png" /></td><td>56.4-61.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_6146648.png" /></td><td>61.4-66.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_6647149.png" /></td><td>66.4-71.4%</td></tr><tr><td style="text-align: center;"><img src="legend/Turnout_4_71410.png" /></td><td>>71.4%</td></tr></table>': layer_Turnout_4,'Issue 1<br /><table><tr><td style="text-align: center;"><img src="legend/Issue1_3_No600.png" /></td><td>No+>60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No45601.png" /></td><td>No+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No30452.png" /></td><td>No+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No15303.png" /></td><td>No+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_No0154.png" /></td><td>No+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes0156.png" /></td><td>Yes+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes15307.png" /></td><td>Yes+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes30458.png" /></td><td>Yes+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes45609.png" /></td><td>Yes+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_Yes6010.png" /></td><td>Yes+60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue1_3_NoVotes11.png" /></td><td>No Votes</td></tr></table>': layer_Issue1_3,'Issue 2<br /><table><tr><td style="text-align: center;"><img src="legend/Issue2_2_No600.png" /></td><td>No+>60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No45601.png" /></td><td>No+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No30452.png" /></td><td>No+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No15303.png" /></td><td>No+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_No0154.png" /></td><td>No+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes0156.png" /></td><td>Yes+0-15%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes15307.png" /></td><td>Yes+15-30%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes30458.png" /></td><td>Yes+30-45%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes45609.png" /></td><td>Yes+45-60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_Yes6010.png" /></td><td>Yes+60%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue2_2_NoVotes11.png" /></td><td>No Votes</td></tr></table>': layer_Issue2_2,'Issue 1-2 Swing<br /><table><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue2160.png" /></td><td>Issue 2+>16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue212161.png" /></td><td>Issue 2+12-16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue28122.png" /></td><td>Issue 2+8-12%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue2483.png" /></td><td>Issue 2+4-8%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue2044.png" /></td><td>Issue 2+0-4%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Tie5.png" /></td><td>Tie</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue1046.png" /></td><td>Issue 1+0-4%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue1487.png" /></td><td>Issue 1+4-8%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue18128.png" /></td><td>Issue 1+8-12%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue112169.png" /></td><td>Issue 1+12-16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_Issue11610.png" /></td><td>Issue 1+>16%</td></tr><tr><td style="text-align: center;"><img src="legend/Issue12Swing_1_NoVotes11.png" /></td><td>No Votes</td></tr></table>': layer_Issue12Swing_1,"Google Road": layer_GoogleRoad_0,},{collapsed:false}).addTo(map);
         setBounds();
         </script>
     </body>
